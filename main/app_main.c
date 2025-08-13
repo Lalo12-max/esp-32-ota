@@ -29,7 +29,7 @@ static const char *MQTT_TAG = "MQTT_EXAMPLE";
 // URL del servidor OTA - CAMBIAR POR TU IP LOCAL
 #define OTA_URL_SIZE 256
 #define HASH_LEN 32
-static char ota_url[OTA_URL_SIZE] = "https://github.com/Lalo12-max/esp32-ota-firmware/releases/download/v1.1/esp32_ota_firmware.bin";
+static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ota_firmware.bin";
 
 // Definiciones para control de LED
 #define LED_GPIO GPIO_NUM_14
@@ -229,9 +229,10 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 // Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
 void publish_sensor_data(esp_mqtt_client_handle_t client)
 {
-    // Cambiar este mensaje para la nueva versión
-    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA v1.1 funcionando";
+    // Mensaje con tu información
+    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando";
     
+    // Publicar en el tópico
     int msg_id = esp_mqtt_client_publish(client, "/practica/1", message, 0, 1, 0);
     ESP_LOGI(MQTT_TAG, "Published message: %s (msg_id=%d)", message, msg_id);
 }
