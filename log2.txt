@@ -1,205 +1,203 @@
-I (3509) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (3539) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (4579) example_connect: Got IPv6 event: Interface "example_netif_sta" address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6699) esp_netif_handlers: example_netif_sta ip: 192.168.100.159, mask: 255.255.255.0, gw: 192.168.100.1
-I (6699) example_connect: Got IPv4 event: Interface "example_netif_sta" address: 192.168.100.159
-I (6699) example_common: Connected to example_netif_sta
-I (6709) example_common: - IPv4 address: 192.168.100.159,
-I (6709) example_common: - IPv6 address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6719) wifi:Set ps type: 0, coexist: 0
+I (3522) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3532) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4602) example_connect: Got IPv6 event: Interface "example_netif_sta" address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
+I (6652) esp_netif_handlers: example_netif_sta ip: 192.168.1.213, mask: 255.255.255.0, gw: 192.168.1.254
+I (6652) example_connect: Got IPv4 event: Interface "example_netif_sta" address: 192.168.1.213
+I (6652) example_common: Connected to example_netif_sta
+I (6662) example_common: - IPv4 address: 192.168.1.213,
+I (6662) example_common: - IPv6 address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
+I (6682) OTA_EXAMPLE: SHA-256 for bootloader:  c937e58211249423d589b100ebcbb64f0f4902261ef480c62f90ea566688d1d0
+I (6982) OTA_EXAMPLE: SHA-256 for current firmware:  458d32fe4714457ccd4dc43c1eab087b98476f811cd3c76667d0f9f609114e5c
+I (6982) MQTT_EXAMPLE: [APP] Free memory: 227672 bytes
+I (6982) MQTT_EXAMPLE: Other event id:7
+I (6992) LED_CONTROL: Starting LED control task
+Luz ADC: 880, LED PWM duty: 143
+I (6992) OTA_UPDATE: Verificando actualizaciones...
+I (7002) OTA_EXAMPLE: Todas las tareas iniciadas correctamente
+I (7002) OTA_UPDATE: Iniciando OTA desde GitHub...
+I (7012) main_task: Returned from app_main()
+I (7042) wifi:<ba-add>idx:0 (ifx:0, 78:57:73:d5:be:a0), tid:0, ssn:5, winSize:64
+I (7602) example_connect: Got IPv6 event: Interface "example_netif_sta" address: 2806:103e:0027:b872:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_GLOBAL
+I (8052) MQTT_EXAMPLE: MQTT_EVENT_CONNECTED
+I (8052) MQTT_EXAMPLE: sent subscribe successful, msg_id=59712
+I (8062) MQTT_EXAMPLE: sent subscribe successful, msg_id=22541
+I (8062) MQTT_EXAMPLE: sent unsubscribe successful, msg_id=21948
+I (8252) MQTT_EXAMPLE: MQTT_EVENT_SUBSCRIBED, msg_id=59712
+I (8252) MQTT_EXAMPLE: Sensor task created successfully
+I (8252) MQTT_EXAMPLE: Published message: Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando (msg_id=28997)
+I (8352) MQTT_EXAMPLE: MQTT_EVENT_SUBSCRIBED, msg_id=22541
+I (8352) MQTT_EXAMPLE: Sensor task created successfully
+I (8362) MQTT_EXAMPLE: Published message: Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando (msg_id=31967)
+I (8362) MQTT_EXAMPLE: MQTT_EVENT_UNSUBSCRIBED, msg_id=21948
+I (8462) MQTT_EXAMPLE: MQTT_EVENT_PUBLISHED, msg_id=28997
+I (8562) MQTT_EXAMPLE: MQTT_EVENT_PUBLISHED, msg_id=31967
+I (8872) esp-x509-crt-bundle: Certificate validated
+I (10552) esp-x509-crt-bundle: Certificate validated
+I (11462) esp-x509-crt-bundle: Certificate validated
+I (11952) esp_https_ota: Starting OTA...
+I (11962) esp_https_ota: Writing to <ota_0> partition at offset 0x120000
+I (13942) esp-x509-crt-bundle: Certificate validated
+I (15352) esp-x509-crt-bundle: Certificate validated
+I (16802) esp-x509-crt-bundle: Certificate validated
+Luz ADC: 881, LED PWM duty: 142
+I (18302) esp-x509-crt-bundle: Certificate validated
+I (19842) esp-x509-crt-bundle: Certificate validated
+I (21202) esp-x509-crt-bundle: Certificate validated
+I (22712) esp-x509-crt-bundle: Certificate validated
+I (24122) esp-x509-crt-bundle: Certificate validated
+I (25532) esp-x509-crt-bundle: Certificate validated
+I (27002) esp-x509-crt-bundle: Certificate validated
+Luz ADC: 880, LED PWM duty: 143
+I (28472) esp-x509-crt-bundle: Certificate validated
+I (29762) esp-x509-crt-bundle: Certificate validated
+I (31132) esp-x509-crt-bundle: Certificate validated
+I (32142) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
+I (32192) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) 
+I (32192) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564)
+I (32202) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
+I (32432) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) 
+I (32432) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036)
+I (32472) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
+I (32522) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) 
+I (32522) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564)
+I (32532) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
+I (32762) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) 
+I (32762) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036)
+I (32812) OTA_UPDATE: OTA completado exitosamente. Reiniciando...
+I (32812) wifi:state: run -> init (0x0)
+I (32822) wifi:pm stop, total sleep time: 11545096 us / 29292863 us
 
-I (6739) MQTT_SSL: SHA-256 for bootloader:  ba768b2549c7dc0ec502d84536f4d83e08fdd7c28f00f45ae941c56ef8729c00
-I (7009) MQTT_SSL: SHA-256 for current firmware:  e79dda2d3cefe37c3a4660343e33e546dd14ed451b3e81ad97bc968653ba765c
-I (7009) MQTT_SSL: [APP] Free memory: 227864 bytes
-I (7009) MQTT_SSL: Other event id:7
-I (7019) MQTT_SSL: Starting OTA example task
-I (7019) MQTT_SSL: Attempting to download update from http://192.168.1.100:8000/firmware/esp32_ota_firmware.bin
-I (7029) gpio: GPIO[0]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (7029) wifi:<ba-add>idx:0 (ifx:0, 6c:14:6e:36:7e:38), tid:0, ssn:2, winSize:64
-I (7039) MQTT_SSL: ADC Raw: 3653, PWM Duty: 7306
-E (7029) esp-tls: couldn't get hostname for :i4d61e5e.ala.us-east-1.emqxsl.com: getaddrinfo() returns 202, addrinfo=0x0    
-W (7029) MQTT_SSL: MQTT not connected, skipping sensor data publish
-E (7059) esp-tls: Failed to open new connection
-I (7029) main_task: Returned from app_main()
-E (7069) transport_base: Failed to open a new connection
-E (7079) mqtt_client: Error transport connect
-I (7079) MQTT_SSL: MQTT_EVENT_ERROR
-I (7089) MQTT_SSL: Last error code reported from esp-tls: 0x8001
-I (7089) MQTT_SSL: Last tls stack error number: 0x0
-I (7099) MQTT_SSL: Last captured errno : 0 (Success)
-I (7099) MQTT_SSL: MQTT_EVENT_DISCONNECTED
-I (7149) MQTT_SSL: ADC Raw: 3738, PWM Duty: 7476
-I (7249) MQTT_SSL: ADC Raw: 3723, PWM Duty: 7446
-I (7349) MQTT_SSL: ADC Raw: 3747, PWM Duty: 7494
-I (7449) MQTT_SSL: ADC Raw: 3722, PWM Duty: 7444
-I (7549) MQTT_SSL: ADC Raw: 3746, PWM Duty: 7492
-I (7579) example_connect: Got IPv6 event: Interface "example_netif_sta" address: 2806:02f0:6440:14f1:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_GLOBAL
-I (7649) MQTT_SSL: ADC Raw: 3775, PWM Duty: 7550
-I (7749) MQTT_SSL: ADC Raw: 3728, PWM Duty: 7456
-I (7849) MQTT_SSL: ADC Raw: 3695, PWM Duty: 7390
-I (7949) MQTT_SSL: ADC Raw: 3758, PWM Duty: 7516
-I (8049) MQTT_SSL: ADC Raw: 3724, PWM Duty: 7448
-I (8149) MQTT_SSL: ADC Raw: 3730, PWM Duty: 7460
-I (8249) MQTT_SSL: ADC Raw: 3723, PWM Duty: 7446
-I (8349) MQTT_SSL: ADC Raw: 3733, PWM Duty: 7466
-I (8449) MQTT_SSL: ADC Raw: 3711, PWM Duty: 7422
-I (8549) MQTT_SSL: ADC Raw: 3731, PWM Duty: 7462
-I (8649) MQTT_SSL: ADC Raw: 3713, PWM Duty: 7426
-I (8749) MQTT_SSL: ADC Raw: 3711, PWM Duty: 7422
-I (8849) MQTT_SSL: ADC Raw: 3787, PWM Duty: 7574
-I (8949) MQTT_SSL: ADC Raw: 3830, PWM Duty: 7660
-I (9049) MQTT_SSL: ADC Raw: 3738, PWM Duty: 7476
-I (9149) MQTT_SSL: ADC Raw: 3821, PWM Duty: 7642
-I (9249) MQTT_SSL: ADC Raw: 3707, PWM Duty: 7414
-I (9349) MQTT_SSL: ADC Raw: 3824, PWM Duty: 7648
-I (9449) MQTT_SSL: ADC Raw: 3712, PWM Duty: 7424
-I (9549) MQTT_SSL: ADC Raw: 3791, PWM Duty: 7582
-I (9649) MQTT_SSL: ADC Raw: 3750, PWM Duty: 7500
-I (9749) MQTT_SSL: ADC Raw: 3715, PWM Duty: 7430
-I (9849) MQTT_SSL: ADC Raw: 3773, PWM Duty: 7546
-I (9949) MQTT_SSL: ADC Raw: 3733, PWM Duty: 7466
-I (10049) MQTT_SSL: ADC Raw: 3706, PWM Duty: 7412
-I (10149) MQTT_SSL: ADC Raw: 3741, PWM Duty: 7482
-I (10249) MQTT_SSL: ADC Raw: 3741, PWM Duty: 7482
-I (10349) MQTT_SSL: ADC Raw: 3715, PWM Duty: 7430
-I (10449) MQTT_SSL: ADC Raw: 3795, PWM Duty: 7590
-I (10549) MQTT_SSL: ADC Raw: 3722, PWM Duty: 7444
-I (10649) MQTT_SSL: ADC Raw: 3786, PWM Duty: 7572
-I (10749) MQTT_SSL: ADC Raw: 3727, PWM Duty: 7454
-I (10849) MQTT_SSL: ADC Raw: 3759, PWM Duty: 7518
-I (10949) MQTT_SSL: ADC Raw: 3793, PWM Duty: 7586
-I (11049) MQTT_SSL: ADC Raw: 3779, PWM Duty: 7558
-I (11149) MQTT_SSL: ADC Raw: 3824, PWM Duty: 7648
-I (11249) MQTT_SSL: ADC Raw: 3695, PWM Duty: 7390
-I (11349) MQTT_SSL: ADC Raw: 3778, PWM Duty: 7556
-I (11449) MQTT_SSL: ADC Raw: 3703, PWM Duty: 7406
-I (11549) MQTT_SSL: ADC Raw: 3715, PWM Duty: 7430
-I (11649) MQTT_SSL: ADC Raw: 3690, PWM Duty: 7380
-I (11749) MQTT_SSL: ADC Raw: 3757, PWM Duty: 7514
-I (11849) MQTT_SSL: ADC Raw: 3696, PWM Duty: 7392
-I (11949) MQTT_SSL: ADC Raw: 3713, PWM Duty: 7426
-E (12049) esp-tls: [sock=54] select() timeout
-I (12049) MQTT_SSL: ADC Raw: 3747, PWM Duty: 7494
-E (12049) transport_base: Failed to open a new connection: 32774
-E (12049) HTTP_CLIENT: Connection failed, sock < 0
-E (12049) esp_https_ota: Failed to open HTTP connection: ESP_ERR_HTTP_CONNECT
-E (12059) esp_https_ota: Failed to establish HTTP connection
-E (12069) MQTT_SSL: Firmware upgrade failed
-I (12149) MQTT_SSL: ADC Raw: 3691, PWM Duty: 7382
-I (12249) MQTT_SSL: ADC Raw: 3767, PWM Duty: 7534
-I (12349) MQTT_SSL: ADC Raw: 3728, PWM Duty: 7456
-I (12449) MQTT_SSL: ADC Raw: 3705, PWM Duty: 7410
-I (12549) MQTT_SSL: ADC Raw: 3710, PWM Duty: 7420
-I (12649) MQTT_SSL: ADC Raw: 3751, PWM Duty: 7502
-I (12749) MQTT_SSL: ADC Raw: 3735, PWM Duty: 7470
-I (12849) MQTT_SSL: ADC Raw: 3724, PWM Duty: 7448
-I (12949) MQTT_SSL: ADC Raw: 3734, PWM Duty: 7468
-I (13049) MQTT_SSL: ADC Raw: 3705, PWM Duty: 7410
-I (13149) MQTT_SSL: ADC Raw: 3693, PWM Duty: 7386
-I (13249) MQTT_SSL: ADC Raw: 3791, PWM Duty: 7582
-I (13349) MQTT_SSL: ADC Raw: 3760, PWM Duty: 7520
-I (13449) MQTT_SSL: ADC Raw: 3739, PWM Duty: 7478
-I (13549) MQTT_SSL: ADC Raw: 3718, PWM Duty: 7436
-I (13649) MQTT_SSL: ADC Raw: 3754, PWM Duty: 7508
-I (13749) MQTT_SSL: ADC Raw: 3728, PWM Duty: 7456
-I (13849) MQTT_SSL: ADC Raw: 3714, PWM Duty: 7428
-I (13949) MQTT_SSL: ADC Raw: 3677, PWM Duty: 7354
-I (14049) MQTT_SSL: ADC Raw: 3742, PWM Duty: 7484
-I (14149) MQTT_SSL: ADC Raw: 3696, PWM Duty: 7392
-I (14249) MQTT_SSL: ADC Raw: 3702, PWM Duty: 7404
-I (14349) MQTT_SSL: ADC Raw: 3687, PWM Duty: 7374
-I (14449) MQTT_SSL: ADC Raw: 3725, PWM Duty: 7450
-I (14549) MQTT_SSL: ADC Raw: 3706, PWM Duty: 7412
-I (14649) MQTT_SSL: ADC Raw: 3770, PWM Duty: 7540
-I (14749) MQTT_SSL: ADC Raw: 3670, PWM Duty: 7340
-I (14849) MQTT_SSL: ADC Raw: 3737, PWM Duty: 7474
-I (14949) MQTT_SSL: ADC Raw: 3771, PWM Duty: 7542
-I (15049) MQTT_SSL: ADC Raw: 3787, PWM Duty: 7574
-I (15149) MQTT_SSL: ADC Raw: 3699, PWM Duty: 7398
-I (15249) MQTT_SSL: ADC Raw: 3679, PWM Duty: 7358
-I (15349) MQTT_SSL: ADC Raw: 3665, PWM Duty: 7330
-I (15449) MQTT_SSL: ADC Raw: 3744, PWM Duty: 7488
-I (15549) MQTT_SSL: ADC Raw: 3699, PWM Duty: 7398
-I (15649) MQTT_SSL: ADC Raw: 3791, PWM Duty: 7582
-I (15749) MQTT_SSL: ADC Raw: 3721, PWM Duty: 7442
-I (15849) MQTT_SSL: ADC Raw: 3712, PWM Duty: 7424
-I (15949) MQTT_SSL: ADC Raw: 3693, PWM Duty: 7386
-I (16049) MQTT_SSL: ADC Raw: 3691, PWM Duty: 7382
-I (16149) MQTT_SSL: ADC Raw: 3791, PWM Duty: 7582
-I (16249) MQTT_SSL: ADC Raw: 3762, PWM Duty: 7524
-I (16349) MQTT_SSL: ADC Raw: 3715, PWM Duty: 7430
-I (16449) MQTT_SSL: ADC Raw: 3778, PWM Duty: 7556
-I (16549) MQTT_SSL: ADC Raw: 3795, PWM Duty: 7590
-I (16649) MQTT_SSL: ADC Raw: 3723, PWM Duty: 7446
-I (16749) MQTT_SSL: ADC Raw: 3690, PWM Duty: 7380
-I (16849) MQTT_SSL: ADC Raw: 3782, PWM Duty: 7564
-I (16949) MQTT_SSL: ADC Raw: 3792, PWM Duty: 7584
-I (17049) MQTT_SSL: ADC Raw: 3739, PWM Duty: 7478
-W (17069) MQTT_SSL: MQTT not connected, skipping sensor data publish
-I (17109) MQTT_SSL: Other event id:7
-E (17109) esp-tls: couldn't get hostname for :i4d61e5e.ala.us-east-1.emqxsl.com: getaddrinfo() returns 202, addrinfo=0x0
-E (17119) esp-tls: Failed to open new connection
-E (17119) transport_base: Failed to open a new connection
-E (17119) mqtt_client: Error transport connect
-I (17129) MQTT_SSL: MQTT_EVENT_ERROR
-I (17129) MQTT_SSL: Last error code reported from esp-tls: 0x8001
-I (17139) MQTT_SSL: Last tls stack error number: 0x0
-I (17139) MQTT_SSL: Last captured errno : 0 (Success)
-I (17149) MQTT_SSL: ADC Raw: 3756, PWM Duty: 7512
-I (17149) MQTT_SSL: MQTT_EVENT_DISCONNECTED
-I (17249) MQTT_SSL: ADC Raw: 3698, PWM Duty: 7396
-I (17349) MQTT_SSL: ADC Raw: 3761, PWM Duty: 7522
-I (17449) MQTT_SSL: ADC Raw: 3779, PWM Duty: 7558
-I (17549) MQTT_SSL: ADC Raw: 3743, PWM Duty: 7486
-I (17649) MQTT_SSL: ADC Raw: 3691, PWM Duty: 7382
-I (17749) MQTT_SSL: ADC Raw: 3769, PWM Duty: 7538
-I (17849) MQTT_SSL: ADC Raw: 3761, PWM Duty: 7522
-I (17949) MQTT_SSL: ADC Raw: 3712, PWM Duty: 7424
-I (18049) MQTT_SSL: ADC Raw: 3719, PWM Duty: 7438
-I (18149) MQTT_SSL: ADC Raw: 3757, PWM Duty: 7514
-I (18249) MQTT_SSL: ADC Raw: 3765, PWM Duty: 7530
-I (18349) MQTT_SSL: ADC Raw: 3714, PWM Duty: 7428
-I (18449) MQTT_SSL: ADC Raw: 3831, PWM Duty: 7662
-I (18549) MQTT_SSL: ADC Raw: 3681, PWM Duty: 7362
-I (18649) MQTT_SSL: ADC Raw: 3702, PWM Duty: 7404
-I (18749) MQTT_SSL: ADC Raw: 3686, PWM Duty: 7372
-I (18849) MQTT_SSL: ADC Raw: 3786, PWM Duty: 7572
-I (18949) MQTT_SSL: ADC Raw: 3677, PWM Duty: 7354
-I (19049) MQTT_SSL: ADC Raw: 3696, PWM Duty: 7392
-I (19149) MQTT_SSL: ADC Raw: 3689, PWM Duty: 7378
-I (19249) MQTT_SSL: ADC Raw: 3699, PWM Duty: 7398
-I (19349) MQTT_SSL: ADC Raw: 3760, PWM Duty: 7520
-I (19449) MQTT_SSL: ADC Raw: 3790, PWM Duty: 7580
-I (19549) MQTT_SSL: ADC Raw: 3703, PWM Duty: 7406
-I (19649) MQTT_SSL: ADC Raw: 3807, PWM Duty: 7614
-I (19749) MQTT_SSL: ADC Raw: 3698, PWM Duty: 7396
-I (19849) MQTT_SSL: ADC Raw: 3741, PWM Duty: 7482
-I (19949) MQTT_SSL: ADC Raw: 3742, PWM Duty: 7484
-I (20049) MQTT_SSL: ADC Raw: 3802, PWM Duty: 7604
-I (20149) MQTT_SSL: ADC Raw: 3763, PWM Duty: 7526
-I (20249) MQTT_SSL: ADC Raw: 3677, PWM Duty: 7354
-I (20349) MQTT_SSL: ADC Raw: 3696, PWM Duty: 7392
-I (20449) MQTT_SSL: ADC Raw: 3667, PWM Duty: 7334
-I (20549) MQTT_SSL: ADC Raw: 3756, PWM Duty: 7512
-I (20649) MQTT_SSL: ADC Raw: 3686, PWM Duty: 7372
-I (20749) MQTT_SSL: ADC Raw: 3722, PWM Duty: 7444
-I (20849) MQTT_SSL: ADC Raw: 3760, PWM Duty: 7520
-I (20949) MQTT_SSL: ADC Raw: 3741, PWM Duty: 7482
-I (21049) MQTT_SSL: ADC Raw: 3680, PWM Duty: 7360
-I (21149) MQTT_SSL: ADC Raw: 3685, PWM Duty: 7370
-I (21249) MQTT_SSL: ADC Raw: 3759, PWM Duty: 7518
-I (21349) MQTT_SSL: ADC Raw: 3770, PWM Duty: 7540
-I (21449) MQTT_SSL: ADC Raw: 3696, PWM Duty: 7392
-I (21549) MQTT_SSL: ADC Raw: 3711, PWM Duty: 7422
-I (21649) MQTT_SSL: ADC Raw: 3714, PWM Duty: 7428
-I (21749) MQTT_SSL: ADC Raw: 3751, PWM Duty: 7502
-I (21849) MQTT_SSL: ADC Raw: 3730, PWM Duty: 7460
-I (21949) MQTT_SSL: ADC Raw: 3701, PWM Duty: 7402
-I (22049) MQTT_SSL: ADC Raw: 3776, PWM Duty: 7552
-I (22149) MQTT_SSL: ADC Raw: 3713, PWM Duty: 7426
-I (22249) MQTT_SSL: ADC Raw: 3754, PWM Duty: 7508
-I (22349) MQTT_SSL: ADC Raw: 3694, PWM Duty: 7388
-I (22449) MQTT_SSL: ADC Raw: 3718, PWM Duty: 7436
-I (22549) MQTT_SSL: ADC Raw: 3753, PWM Duty: 7506
-I (22649) MQTT_SSL: ADC Raw: 3744, PWM Duty: 7488
-I (22749) MQTT_SSL: ADC Raw: 3744, PWM Duty: 7488
+I (32822) wifi:<ba-del>idx:0, tid:0
+I (32822) wifi:new:<2,0>, old:<2,0>, ap:<255,255>, sta:<2,0>, prof:1, snd_ch_cfg:0x0
+E (32842) esp-tls-mbedtls: read error :-0x004C
+E (32842) transport_base: esp_tls_conn_read error, errno=Software caused connection abort
+E (32842) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=113
+I (32852) MQTT_EXAMPLE: MQTT_EVENT_ERROR
+I (32852) MQTT_EXAMPLE: Last error code reported from esp-tls: 0x0
+I (32862) MQTT_EXAMPLE: Last tls stack error number: 0x4c
+I (32862) MQTT_EXAMPLE: Last captured errno : 0 (Success)
+E (32872) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
+I (32882) MQTT_EXAMPLE: MQTT_EVENT_DISCONNECTED
+I (32922) wifi:flush txq
+I (32922) wifi:stop sw txq
+I (32922) wifi:lmac stop hw txq
+I (32922) wifi:Deinit lldesc rx mblock:10
+ets Jul 29 2019 12:21:46
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+--- 0x40080400: _init at ??:?
+
+load:0x40080404,len:3860
+entry 0x4008063c
+I (29) boot: ESP-IDF v5.4.2 2nd stage bootloader
+I (29) boot: compile time Aug 13 2025 01:16:06
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v3.1
+I (33) boot.esp32: SPI Speed      : 40MHz
+I (37) boot.esp32: SPI Mode       : DIO
+I (41) boot.esp32: SPI Flash Size : 4MB
+I (44) boot: Enabling RNG early entropy source...
+I (49) boot: Partition Table:
+I (51) boot: ## Label            Usage          Type ST Offset   Length
+I (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (64) boot:  1 otadata          OTA data         01 00 0000f000 00002000
+I (71) boot:  2 phy_init         RF data          01 01 00011000 00001000
+I (77) boot:  3 factory          factory app      00 00 00020000 00100000
+I (84) boot:  4 ota_0            OTA app          00 10 00120000 00100000
+I (90) boot:  5 ota_1            OTA app          00 11 00220000 00100000
+I (97) boot: End of partition table
+I (100) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
+I (152) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) load
+I (152) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564) load
+I (156) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
+I (391) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) load
+I (397) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036) load
+I (446) boot: Loaded app from partition at offset 0x120000
+I (447) boot: Disabling RNG early entropy source...
+I (457) cpu_start: Multicore app
+I (466) cpu_start: Pro cpu start user code
+I (466) cpu_start: cpu freq: 160000000 Hz
+I (466) app_init: Application information:
+I (466) app_init: Project name:     mqtt_ssl
+I (470) app_init: App version:      1
+I (473) app_init: Compile time:     Aug 13 2025 01:11:55
+I (478) app_init: ELF file SHA256:  6c649824a...
+--- Warning: Checksum mismatch between flashed and built applications. Checksum of built application is 514a4800e038a5e29fe36f2f792cdf66007d0d2d2a9d7f7ba752af6a3f058237
+I (482) app_init: ESP-IDF:          v5.4.2
+I (486) efuse_init: Min chip rev:     v0.0
+I (490) efuse_init: Max chip rev:     v3.99
+I (494) efuse_init: Chip rev:         v3.1
+I (498) heap_init: Initializing. RAM available for dynamic allocation:
+I (504) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (509) heap_init: At 3FFB8858 len 000277A8 (157 KiB): DRAM
+I (515) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (520) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (525) heap_init: At 40097B0C len 000084F4 (33 KiB): IRAM
+I (532) spi_flash: detected chip: generic
+I (534) spi_flash: flash io: dio
+I (538) main_task: Started on CPU0
+I (548) main_task: Calling app_main()
+I (548) OTA_EXAMPLE: OTA example app_main start
+I (568) example_connect: Start example_connect.
+I (578) wifi:wifi driver task: 3ffc05c4, prio:23, stack:6656, core=0
+I (588) wifi:wifi firmware version: bea31f3
+I (588) wifi:wifi certification version: v7.0
+I (588) wifi:config NVS flash: enabled
+I (588) wifi:config nano formatting: disabled
+I (588) wifi:Init data frame dynamic rx buffer num: 32
+I (598) wifi:Init static rx mgmt buffer num: 5
+I (598) wifi:Init management short buffer num: 32
+I (608) wifi:Init dynamic tx buffer num: 32
+I (608) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+I (618) wifi_init: rx ba win: 6
+I (628) wifi_init: accept mbox: 6
+I (628) wifi_init: tcpip mbox: 32
+I (628) wifi_init: udp mbox: 6
+I (638) wifi_init: tcp mbox: 6
+I (638) wifi_init: tcp tx win: 5760
+I (638) wifi_init: tcp rx win: 5760
+I (638) wifi_init: tcp mss: 1440
+I (648) wifi_init: WiFi IRAM OP enabled
+I (648) wifi_init: WiFi RX IRAM OP enabled
+I (658) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
+I (748) wifi:mode : sta (d4:8a:fc:a8:4f:28)
+I (748) wifi:enable tsf
+I (748) example_connect: Connecting to INFINITUM5CA4_2.4...
+W (748) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (758) example_connect: Waiting for IP(s)
+I (3418) wifi:new:<2,0>, old:<1,0>, ap:<255,255>, sta:<2,0>, prof:1, snd_ch_cfg:0x0
+I (3418) wifi:state: init -> auth (0xb0)
+I (3428) wifi:state: auth -> assoc (0x0)
+I (3428) wifi:state: assoc -> run (0x10)
+I (3458) wifi:connected with INFINITUM5CA4_2.4, aid = 126, channel 2, BW20, bssid = 78:57:73:d5:be:a0
+I (3458) wifi:security: WPA2-PSK, phy: bgn, rssi: -53
+I (3458) wifi:pm start, type: 1
+
+I (3458) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3468) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4568) example_connect: Got IPv6 event: Interface "example_netif_sta" address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
+I (6628) esp_netif_handlers: example_netif_sta ip: 192.168.1.213, mask: 255.255.255.0, gw: 192.168.1.254
+I (6628) example_connect: Got IPv4 event: Interface "example_netif_sta" address: 192.168.1.213
+I (6628) example_common: Connected to example_netif_sta
+I (6638) example_common: - IPv4 address: 192.168.1.213,
+I (6638) example_common: - IPv6 address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
+I (6658) OTA_EXAMPLE: SHA-256 for bootloader:  c937e58211249423d589b100ebcbb64f0f4902261ef480c62f90ea566688d1d0
+I (6928) OTA_EXAMPLE: SHA-256 for current firmware:  ad419607772640c152691cb41af4eafa523f600334fc0d7f43468f56e7025c95
+I (6928) OTA_EXAMPLE: Starting OTA example task
+I (6938) LED_CONTROL: Starting LED control task v2.0 with button control
+I (6938) main_task: Returned from app_main()
+I (6938) gpio: GPIO[27]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
+I (6948) LED_CONTROL: Sistema iniciado - Presiona el botón BOOT para encender/apagar
+[AUTO] Luz ADC: 881, LED PWM duty: 142
+I (7568) example_connect: Got IPv6 event: Interface "example_netif_sta" address: 2806:103e:0027:b872:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_GLOBAL
+I (7778) OTA_EXAMPLE: HTTP GET Status = 200, content_length = 911184
+I (8998) wifi:<ba-add>idx:0 (ifx:0, 78:57:73:d5:be:a0), tid:0, ssn:5, winSize:64
+I (16548) OTA_EXAMPLE: Connection closed, all data received

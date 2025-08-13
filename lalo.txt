@@ -18,7 +18,6 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 #include "esp_adc/adc_oneshot.h"
-#include "driver/gpio.h"
 // Nuevos includes para MQTT
 #include "mqtt_client.h"
 #include "esp_tls.h"
@@ -35,7 +34,6 @@ static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ot
 // Definiciones para control de LED
 #define LED_GPIO GPIO_NUM_14
 #define LDR_ADC_CHANNEL ADC_CHANNEL_6  // GPIO34
-#define BUTTON_GPIO GPIO_NUM_27       // GPIO0 (botón BOOT del ESP32)
 
 // PWM resolución y canal para LED
 #define LEDC_TIMER LEDC_TIMER_0
@@ -43,21 +41,6 @@ static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ot
 #define LEDC_CHANNEL LEDC_CHANNEL_0
 #define LEDC_DUTY_RES LEDC_TIMER_10_BIT  // 0-1023
 #define LEDC_FREQUENCY 5000               // 5 kHz para LED PWM
-
-// Variable global para controlar el estado del sistema
-static bool led_system_enabled = true;
-static bool last_button_state = true;  // Pull-up, normalmente HIGH
-
-// Certificado para MQTT SSL
-#if CONFIG_BROKER_CERTIFICATE_OVERRIDDEN == 1
-static const uint8_t mqtt_eclipseprojects_io_pem_start[]  = "-----BEGIN CERTIFICATE-----\n" CONFIG_BROKER_CERTIFICATE_OVERRIDE "\n-----END CERTIFICATE-----";
-#else
-extern const uint8_t emqxsl_ca_pem_start[]   asm("_binary_emqxsl_ca_pem_start");
-#endif
-extern const uint8_t emqxsl_ca_pem_end[]   asm("_binary_emqxsl_ca_pem_end");
-
-// Variable global para el cliente MQTT
-static esp_mqtt_client_handle_t mqtt_client = NULL;
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
@@ -92,125 +75,6 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 
 #include "esp_ota_ops.h"
 #include "esp_app_format.h"
-
-// Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
-void publish_sensor_data(esp_mqtt_client_handle_t client)
-{
-    // Mensaje con tu información y estado del sistema
-    char message[200];
-    snprintf(message, sizeof(message), 
-        "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando, LED: %s", 
-        led_system_enabled ? "AUTO" : "OFF");
-    
-    // Publicar en el tópico
-    int msg_id = esp_mqtt_client_publish(client, "/practica/1", message, 0, 1, 0);
-    ESP_LOGI(MQTT_TAG, "Published message: %s (msg_id=%d)", message, msg_id);
-}
-
-// Tarea del sensor MQTT
-void sensor_task(void *pvParameters)
-{
-    esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t) pvParameters;
-
-    while (true) {
-        if (client != NULL) {
-            publish_sensor_data(client);
-        }
-        vTaskDelay(pdMS_TO_TICKS(300000)); // 300,000 ms = 5 minutos
-    }
-}
-
-// Manejador de eventos MQTT
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
-{
-    ESP_LOGD(MQTT_TAG, "Event dispatched from event loop base=%s, event_id=%" PRIi32, base, event_id);
-    esp_mqtt_event_handle_t event = event_data;
-    esp_mqtt_client_handle_t client = event->client;
-    int msg_id;
-    
-    switch ((esp_mqtt_event_id_t)event_id) {
-    case MQTT_EVENT_CONNECTED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_CONNECTED");
-        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
-
-        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
-        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
-
-        msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
-        ESP_LOGI(MQTT_TAG, "sent unsubscribe successful, msg_id=%d", msg_id);
-        break;
-        
-    case MQTT_EVENT_DISCONNECTED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DISCONNECTED");
-        break;
-
-    case MQTT_EVENT_SUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
-        // Crear tarea del sensor cuando se suscriba exitosamente
-        xTaskCreate(sensor_task, "sensor_task", 4096, client, 5, NULL);
-        ESP_LOGI(MQTT_TAG, "Sensor task created successfully");
-        break;
-        
-    case MQTT_EVENT_UNSUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
-        break;
-        
-    case MQTT_EVENT_PUBLISHED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
-        break;
-        
-    case MQTT_EVENT_DATA:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DATA");
-        printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-        printf("DATA=%.*s\r\n", event->data_len, event->data);
-        break;
-        
-    case MQTT_EVENT_ERROR:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_ERROR");
-        if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT) {
-            ESP_LOGI(MQTT_TAG, "Last error code reported from esp-tls: 0x%x", event->error_handle->esp_tls_last_esp_err);
-            ESP_LOGI(MQTT_TAG, "Last tls stack error number: 0x%x", event->error_handle->esp_tls_stack_err);
-            ESP_LOGI(MQTT_TAG, "Last captured errno : %d (%s)",  event->error_handle->esp_transport_sock_errno,
-                     strerror(event->error_handle->esp_transport_sock_errno));
-        } else if (event->error_handle->error_type == MQTT_ERROR_TYPE_CONNECTION_REFUSED) {
-            ESP_LOGI(MQTT_TAG, "Connection refused error: 0x%x", event->error_handle->connect_return_code);
-        } else {
-            ESP_LOGW(MQTT_TAG, "Unknown error type: 0x%x", event->error_handle->error_type);
-        }
-        break;
-        
-    default:
-        ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
-        break;
-    }
-}
-
-// Función para inicializar MQTT
-static void mqtt_app_start(void)
-{
-    const esp_mqtt_client_config_t mqtt_cfg = {
-        .broker = {
-            .address.uri = "mqtts://l46d1e5e.ala.us-east-1.emqxsl.com:8883",
-            .verification.certificate = (const char *)emqxsl_ca_pem_start
-        },
-        .credentials = {
-            .username = "big-data-001",
-            .authentication.password = "1Q2W3E4R5T6Y"
-        }
-    };
-
-    ESP_LOGI(MQTT_TAG, "[APP] Free memory: %" PRIu32 " bytes", esp_get_free_heap_size());
-    mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
-    
-    if (mqtt_client == NULL) {
-        ESP_LOGE(MQTT_TAG, "Failed to initialize MQTT client");
-        return;
-    }
-    
-    esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
-    esp_mqtt_client_start(mqtt_client);
-}
 
 static void simple_ota_example_task(void *pvParameter)
 {
@@ -351,19 +215,136 @@ void get_sha256_of_partitions(void)
     print_sha256(sha_256, "SHA-256 for current firmware: ");
 }
 
+// Certificado para MQTT SSL
+#if CONFIG_BROKER_CERTIFICATE_OVERRIDDEN == 1
+static const uint8_t mqtt_eclipseprojects_io_pem_start[]  = "-----BEGIN CERTIFICATE-----\n" CONFIG_BROKER_CERTIFICATE_OVERRIDE "\n-----END CERTIFICATE-----";
+#else
+extern const uint8_t emqxsl_ca_pem_start[]   asm("_binary_emqxsl_ca_pem_start");
+#endif
+extern const uint8_t emqxsl_ca_pem_end[]   asm("_binary_emqxsl_ca_pem_end");
+
+// Variable global para el cliente MQTT
+static esp_mqtt_client_handle_t mqtt_client = NULL;
+
+// Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
+void publish_sensor_data(esp_mqtt_client_handle_t client)
+{
+    // Mensaje con tu información
+    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando";
+    
+    // Publicar en el tópico
+    int msg_id = esp_mqtt_client_publish(client, "/practica/1", message, 0, 1, 0);
+    ESP_LOGI(MQTT_TAG, "Published message: %s (msg_id=%d)", message, msg_id);
+}
+
+// Tarea del sensor MQTT
+void sensor_task(void *pvParameters)
+{
+    esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t) pvParameters;
+
+    while (true) {
+        if (client != NULL) {
+            publish_sensor_data(client);
+        }
+        vTaskDelay(pdMS_TO_TICKS(300000)); // 300,000 ms = 5 minutos
+    }
+}
+
+// Manejador de eventos MQTT
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+{
+    ESP_LOGD(MQTT_TAG, "Event dispatched from event loop base=%s, event_id=%" PRIi32, base, event_id);
+    esp_mqtt_event_handle_t event = event_data;
+    esp_mqtt_client_handle_t client = event->client;
+    int msg_id;
+    
+    switch ((esp_mqtt_event_id_t)event_id) {
+    case MQTT_EVENT_CONNECTED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_CONNECTED");
+        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
+        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
+
+        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
+        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
+
+        msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
+        ESP_LOGI(MQTT_TAG, "sent unsubscribe successful, msg_id=%d", msg_id);
+        break;
+        
+    case MQTT_EVENT_DISCONNECTED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DISCONNECTED");
+        break;
+
+    case MQTT_EVENT_SUBSCRIBED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
+        // Crear tarea del sensor cuando se suscriba exitosamente
+        xTaskCreate(sensor_task, "sensor_task", 4096, client, 5, NULL);
+        ESP_LOGI(MQTT_TAG, "Sensor task created successfully");
+        break;
+        
+    case MQTT_EVENT_UNSUBSCRIBED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+        break;
+        
+    case MQTT_EVENT_PUBLISHED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+        break;
+        
+    case MQTT_EVENT_DATA:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DATA");
+        printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+        printf("DATA=%.*s\r\n", event->data_len, event->data);
+        break;
+        
+    case MQTT_EVENT_ERROR:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_ERROR");
+        if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT) {
+            ESP_LOGI(MQTT_TAG, "Last error code reported from esp-tls: 0x%x", event->error_handle->esp_tls_last_esp_err);
+            ESP_LOGI(MQTT_TAG, "Last tls stack error number: 0x%x", event->error_handle->esp_tls_stack_err);
+            ESP_LOGI(MQTT_TAG, "Last captured errno : %d (%s)",  event->error_handle->esp_transport_sock_errno,
+                     strerror(event->error_handle->esp_transport_sock_errno));
+        } else if (event->error_handle->error_type == MQTT_ERROR_TYPE_CONNECTION_REFUSED) {
+            ESP_LOGI(MQTT_TAG, "Connection refused error: 0x%x", event->error_handle->connect_return_code);
+        } else {
+            ESP_LOGW(MQTT_TAG, "Unknown error type: 0x%x", event->error_handle->error_type);
+        }
+        break;
+        
+    default:
+        ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
+        break;
+    }
+}
+
+// Función para inicializar MQTT
+static void mqtt_app_start(void)
+{
+    const esp_mqtt_client_config_t mqtt_cfg = {
+        .broker = {
+            .address.uri = "mqtts://l46d1e5e.ala.us-east-1.emqxsl.com:8883",
+            .verification.certificate = (const char *)emqxsl_ca_pem_start
+        },
+        .credentials = {
+            .username = "big-data-001",
+            .authentication.password = "1Q2W3E4R5T6Y"
+        }
+    };
+
+    ESP_LOGI(MQTT_TAG, "[APP] Free memory: %" PRIu32 " bytes", esp_get_free_heap_size());
+    mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
+    
+    if (mqtt_client == NULL) {
+        ESP_LOGE(MQTT_TAG, "Failed to initialize MQTT client");
+        return;
+    }
+    
+    esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+    esp_mqtt_client_start(mqtt_client);
+}
+
 static void led_control_task(void *pvParameter)
 {
-    ESP_LOGI(LED_TAG, "Starting LED control task v2.0 with button control + MQTT");
-    
-    // Configurar el botón como entrada con pull-up
-    gpio_config_t button_config = {
-        .pin_bit_mask = (1ULL << BUTTON_GPIO),
-        .mode = GPIO_MODE_INPUT,
-        .pull_up_en = GPIO_PULLUP_ENABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE
-    };
-    gpio_config(&button_config);
+    ESP_LOGI(LED_TAG, "Starting LED control task");
     
     // Configurar PWM para el LED
     ledc_timer_config_t ledc_timer = {
@@ -400,57 +381,28 @@ static void led_control_task(void *pvParameter)
 
     int log_counter = 0;  // Contador para logs
     
-    ESP_LOGI(LED_TAG, "Sistema iniciado - Presiona el botón BOOT para encender/apagar");
-    
     while (1) {
-        // Leer estado del botón
-        bool current_button_state = gpio_get_level(BUTTON_GPIO);
+        int raw;
+        ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, LDR_ADC_CHANNEL, &raw));
         
-        // Detectar flanco descendente (botón presionado)
-        if (last_button_state == true && current_button_state == false) {
-            led_system_enabled = !led_system_enabled;
-            ESP_LOGI(LED_TAG, "Sistema %s", led_system_enabled ? "ENCENDIDO" : "APAGADO");
-            
-            // Si se apaga el sistema, apagar el LED
-            if (!led_system_enabled) {
-                ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, 0);
-                ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
-            }
-            
-            // Esperar a que se suelte el botón para evitar rebotes
-            vTaskDelay(pdMS_TO_TICKS(300));
-        }
-        last_button_state = current_button_state;
-        
-        // Solo ejecutar control automático si el sistema está habilitado
-        if (led_system_enabled) {
-            int raw;
-            ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, LDR_ADC_CHANNEL, &raw));
-            
-            int duty = 1023 - raw;
+        int duty = 1023 - raw;
 
-            ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty);
-            ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
+        ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty);
+        ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
 
-            // Solo mostrar log cada 50 iteraciones (cada 10 segundos) y si está habilitado
-            if (log_counter % 50 == 0) {
-                printf("[AUTO] Luz ADC: %d, LED PWM duty: %d\n", raw, duty);
-            }
-        } else {
-            // Sistema apagado - mostrar estado cada 50 iteraciones
-            if (log_counter % 50 == 0) {
-                printf("[MANUAL] Sistema APAGADO - LED: OFF\n");
-            }
+        // Solo mostrar log cada 50 iteraciones (cada 10 segundos)
+        if (log_counter % 50 == 0) {
+            printf("Luz ADC: %d, LED PWM duty: %d\n", raw, duty);
         }
-        
         log_counter++;
+
         vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
 
 void app_main(void)
 {
-    ESP_LOGI(TAG, "OTA + MQTT + LED Control example app_main start");
+    ESP_LOGI(TAG, "OTA + MQTT example app_main start");
     
     // Initialize NVS
     esp_err_t ret = nvs_flash_init();

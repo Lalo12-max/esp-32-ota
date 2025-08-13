@@ -29,7 +29,7 @@ static const char *MQTT_TAG = "MQTT_EXAMPLE";
 // URL del servidor OTA - CAMBIAR POR TU IP LOCAL
 #define OTA_URL_SIZE 256
 #define HASH_LEN 32
-static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ota_firmware.bin";
+static char ota_url[OTA_URL_SIZE] = "https://github.com/Lalo12-max/esp32-ota-firmware/releases/download/v1.1/esp32_ota_firmware.bin";
 
 // Definiciones para control de LED
 #define LED_GPIO GPIO_NUM_14
@@ -229,10 +229,9 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 // Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
 void publish_sensor_data(esp_mqtt_client_handle_t client)
 {
-    // Mensaje con tu información
-    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando";
+    // Cambiar este mensaje para la nueva versión
+    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA v1.1 funcionando";
     
-    // Publicar en el tópico
     int msg_id = esp_mqtt_client_publish(client, "/practica/1", message, 0, 1, 0);
     ESP_LOGI(MQTT_TAG, "Published message: %s (msg_id=%d)", message, msg_id);
 }
@@ -276,7 +275,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
-        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_SUBSCRIBED, msg__id=%d", event->msg_id);
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
         // Crear tarea del sensor cuando se suscriba exitosamente
         xTaskCreate(sensor_task, "sensor_task", 4096, client, 5, NULL);
         ESP_LOGI(MQTT_TAG, "Sensor task created successfully");
@@ -434,65 +433,4 @@ void app_main(void)
     // Crear todas las tareas: OTA, control de LED y MQTT ya se maneja internamente
     xTaskCreate(&simple_ota_example_task, "ota_example_task", 8192, NULL, 5, NULL);
     xTaskCreate(led_control_task, "led_control_task", 2048, NULL, 5, NULL);
-}
-
-static void perform_ota_update() {
-    esp_http_client_config_t config = {
-        .url = "https://tu-servidor-en-la-nube.com/firmware/esp32_ota_firmware.bin",  // URL de la nube
-        .crt_bundle_attach = esp_crt_bundle_attach,  // Verificación SSL automática
-        .cert_pem = NULL,
-        .timeout_ms = 30000,
-        .event_handler = _http_event_handler,
-        .user_data = NULL,
-        .keep_alive_enable = true,
-    };
-    
-    esp_https_ota_config_t ota_config = {
-        .http_config = &config,
-    };
-    
-    ESP_LOGI(OTA_TAG, "Iniciando OTA desde la nube...");
-    esp_err_t ret = esp_https_ota(&ota_config);
-    if (ret == ESP_OK) {
-        ESP_LOGI(OTA_TAG, "OTA completado exitosamente. Reiniciando...");
-        esp_restart();
-    } else {
-        ESP_LOGE(OTA_TAG, "Error en OTA: %s", esp_err_to_name(ret));
-    }
-}
-
-#define CURRENT_VERSION "1.0.0"
-#define VERSION_CHECK_URL "https://tu-servidor.com/api/version"
-#define FIRMWARE_URL "https://tu-servidor.com/firmware/esp32_ota_firmware.bin"
-
-static bool check_for_updates() {
-    esp_http_client_config_t config = {
-        .url = VERSION_CHECK_URL,
-        .crt_bundle_attach = esp_crt_bundle_attach,
-        .timeout_ms = 10000,
-    };
-    
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-    esp_err_t err = esp_http_client_perform(client);
-    
-    if (err == ESP_OK) {
-        int status_code = esp_http_client_get_status_code(client);
-        if (status_code == 200) {
-            // Leer respuesta y comparar versión
-            // Retornar true si hay actualización disponible
-        }
-    }
-    
-    esp_http_client_cleanup(client);
-    return false;
-}
-
-static void ota_task(void *pvParameter) {
-    while (1) {
-        if (check_for_updates()) {
-            ESP_LOGI(OTA_TAG, "Nueva versión disponible. Iniciando OTA...");
-            perform_ota_update();
-        }
-        vTaskDelay(pdMS_TO_TICKS(300000)); // Verificar cada 5 minutos
-    }
 }
