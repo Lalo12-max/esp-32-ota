@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: esp32-ota-server
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python render_start.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16

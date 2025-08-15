@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard LED Intensity Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔆 Monitor de Intensidad LED</h1>
+            <p>Eduardo Alejandro Cabello Hernandez - 2022371034</p>
+        </div>
+        
+        <div id="status" class="status disconnected">
+            Desconectado del broker MQTT
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="lightValue">--</div>
+                <div class="stat-label">Luz Ambiente (ADC)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="ledDuty">--</div>
+                <div class="stat-label">LED PWM Duty</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="ledPercent">--%</div>
+                <div class="stat-label">Intensidad LED</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="ledChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="lightChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del gráfico de intensidad LED
+        const ledCtx = document.getElementById('ledChart').getContext('2d');
+        const ledChart = new Chart(ledCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Intensidad LED (%)',
+                    data: [],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Intensidad (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tiempo'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Intensidad del LED en Tiempo Real'
+                    }
+                },
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+
+        // Configuración del gráfico de luz ambiente
+        const lightCtx = document.getElementById('lightChart').getContext('2d');
+        const lightChart = new Chart(lightCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Luz Ambiente (ADC)',
+                    data: [],
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1023,
+                        title: {
+                            display: true,
+                            text: 'Valor ADC'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tiempo'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Sensor de Luz Ambiente'
+                    }
+                },
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+
+        // Configuración MQTT
+        const brokerUrl = 'wss://l46d1e5e.ala.us-east-1.emqxsl.com:8084/mqtt';
+        const options = {
+            username: 'big-data-001',
+            password: '1Q2W3E4R5T6Y',
+            clientId: 'dashboard_' + Math.random().toString(16).substr(2, 8)
+        };
+
+        // Conectar al broker MQTT
+        const client = mqtt.connect(brokerUrl, options);
+        
+        client.on('connect', function () {
+            console.log('Conectado al broker MQTT');
+            document.getElementById('status').textContent = 'Conectado al broker MQTT';
+            document.getElementById('status').className = 'status connected';
+            
+            // Suscribirse al tópico de datos del sensor
+            client.subscribe('/sensor/led_data', function (err) {
+                if (!err) {
+                    console.log('Suscrito a /sensor/led_data');
+                }
+            });
+        });
+
+        client.on('message', function (topic, message) {
+            try {
+                const data = JSON.parse(message.toString());
+                console.log('Datos recibidos:', data);
+                
+                // Actualizar valores en tiempo real
+                document.getElementById('lightValue').textContent = data.light_adc;
+                document.getElementById('ledDuty').textContent = data.led_duty;
+                document.getElementById('ledPercent').textContent = data.led_intensity_percent.toFixed(1) + '%';
+                
+                // Obtener timestamp actual
+                const now = new Date().toLocaleTimeString();
+                
+                // Actualizar gráfico de intensidad LED
+                ledChart.data.labels.push(now);
+                ledChart.data.datasets[0].data.push(data.led_intensity_percent);
+                
+                // Actualizar gráfico de luz ambiente
+                lightChart.data.labels.push(now);
+                lightChart.data.datasets[0].data.push(data.light_adc);
+                
+                // Mantener solo los últimos 20 puntos
+                if (ledChart.data.labels.length > 20) {
+                    ledChart.data.labels.shift();
+                    ledChart.data.datasets[0].data.shift();
+                    lightChart.data.labels.shift();
+                    lightChart.data.datasets[0].data.shift();
+                }
+                
+                // Actualizar gráficos con animación suave
+                ledChart.update('none');
+                lightChart.update('none');
+                
+            } catch (error) {
+                console.error('Error al procesar mensaje:', error);
+            }
+        });
+
+        client.on('error', function (error) {
+            console.error('Error MQTT:', error);
+            document.getElementById('status').textContent = 'Error de conexión MQTT';
+            document.getElementById('status').className = 'status disconnected';
+        });
+
+        client.on('close', function () {
+            console.log('Conexión MQTT cerrada');
+            document.getElementById('status').textContent = 'Desconectado del broker MQTT';
+            document.getElementById('status').className = 'status disconnected';
+        });
+    </script>
+</body>
+</html>

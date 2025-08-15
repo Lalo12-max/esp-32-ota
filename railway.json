@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "DOCKERFILE"
+  },
+  "deploy": {
+    "startCommand": "python ota_server.py",
+    "healthcheckPath": "/"
+  }
+}

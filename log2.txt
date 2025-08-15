@@ -1,203 +1,383 @@
-I (3522) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (3532) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (4602) example_connect: Got IPv6 event: Interface "example_netif_sta" address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6652) esp_netif_handlers: example_netif_sta ip: 192.168.1.213, mask: 255.255.255.0, gw: 192.168.1.254
-I (6652) example_connect: Got IPv4 event: Interface "example_netif_sta" address: 192.168.1.213
-I (6652) example_common: Connected to example_netif_sta
-I (6662) example_common: - IPv4 address: 192.168.1.213,
-I (6662) example_common: - IPv6 address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6682) OTA_EXAMPLE: SHA-256 for bootloader:  c937e58211249423d589b100ebcbb64f0f4902261ef480c62f90ea566688d1d0
-I (6982) OTA_EXAMPLE: SHA-256 for current firmware:  458d32fe4714457ccd4dc43c1eab087b98476f811cd3c76667d0f9f609114e5c
-I (6982) MQTT_EXAMPLE: [APP] Free memory: 227672 bytes
-I (6982) MQTT_EXAMPLE: Other event id:7
-I (6992) LED_CONTROL: Starting LED control task
-Luz ADC: 880, LED PWM duty: 143
-I (6992) OTA_UPDATE: Verificando actualizaciones...
-I (7002) OTA_EXAMPLE: Todas las tareas iniciadas correctamente
-I (7002) OTA_UPDATE: Iniciando OTA desde GitHub...
-I (7012) main_task: Returned from app_main()
-I (7042) wifi:<ba-add>idx:0 (ifx:0, 78:57:73:d5:be:a0), tid:0, ssn:5, winSize:64
-I (7602) example_connect: Got IPv6 event: Interface "example_netif_sta" address: 2806:103e:0027:b872:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_GLOBAL
-I (8052) MQTT_EXAMPLE: MQTT_EVENT_CONNECTED
-I (8052) MQTT_EXAMPLE: sent subscribe successful, msg_id=59712
-I (8062) MQTT_EXAMPLE: sent subscribe successful, msg_id=22541
-I (8062) MQTT_EXAMPLE: sent unsubscribe successful, msg_id=21948
-I (8252) MQTT_EXAMPLE: MQTT_EVENT_SUBSCRIBED, msg_id=59712
-I (8252) MQTT_EXAMPLE: Sensor task created successfully
-I (8252) MQTT_EXAMPLE: Published message: Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando (msg_id=28997)
-I (8352) MQTT_EXAMPLE: MQTT_EVENT_SUBSCRIBED, msg_id=22541
-I (8352) MQTT_EXAMPLE: Sensor task created successfully
-I (8362) MQTT_EXAMPLE: Published message: Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando (msg_id=31967)
-I (8362) MQTT_EXAMPLE: MQTT_EVENT_UNSUBSCRIBED, msg_id=21948
-I (8462) MQTT_EXAMPLE: MQTT_EVENT_PUBLISHED, msg_id=28997
-I (8562) MQTT_EXAMPLE: MQTT_EVENT_PUBLISHED, msg_id=31967
-I (8872) esp-x509-crt-bundle: Certificate validated
-I (10552) esp-x509-crt-bundle: Certificate validated
-I (11462) esp-x509-crt-bundle: Certificate validated
-I (11952) esp_https_ota: Starting OTA...
-I (11962) esp_https_ota: Writing to <ota_0> partition at offset 0x120000
-I (13942) esp-x509-crt-bundle: Certificate validated
-I (15352) esp-x509-crt-bundle: Certificate validated
-I (16802) esp-x509-crt-bundle: Certificate validated
-Luz ADC: 881, LED PWM duty: 142
-I (18302) esp-x509-crt-bundle: Certificate validated
-I (19842) esp-x509-crt-bundle: Certificate validated
-I (21202) esp-x509-crt-bundle: Certificate validated
-I (22712) esp-x509-crt-bundle: Certificate validated
-I (24122) esp-x509-crt-bundle: Certificate validated
-I (25532) esp-x509-crt-bundle: Certificate validated
-I (27002) esp-x509-crt-bundle: Certificate validated
-Luz ADC: 880, LED PWM duty: 143
-I (28472) esp-x509-crt-bundle: Certificate validated
-I (29762) esp-x509-crt-bundle: Certificate validated
-I (31132) esp-x509-crt-bundle: Certificate validated
-I (32142) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
-I (32192) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) 
-I (32192) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564)
-I (32202) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
-I (32432) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) 
-I (32432) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036)
-I (32472) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
-I (32522) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) 
-I (32522) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564)
-I (32532) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
-I (32762) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) 
-I (32762) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036)
-I (32812) OTA_UPDATE: OTA completado exitosamente. Reiniciando...
-I (32812) wifi:state: run -> init (0x0)
-I (32822) wifi:pm stop, total sleep time: 11545096 us / 29292863 us
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
+#include "esp_system.h"
+#include "esp_partition.h"
+#include "nvs_flash.h"
+#include "esp_event.h"
+#include "esp_netif.h"
+#include "protocol_examples_common.h"
+#include "esp_log.h"
+#include "esp_ota_ops.h"
+#include <sys/param.h>
+#include <inttypes.h>
+#include "esp_http_client.h"
+#include "esp_https_ota.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/ledc.h"
+#include "esp_adc/adc_oneshot.h"
+#include "esp_timer.h"  // ← AGREGAR ESTA LÍNEA
+// Nuevos includes para MQTT
+#include "mqtt_client.h"
+#include "esp_tls.h"
+#include "esp_crt_bundle.h"
 
-I (32822) wifi:<ba-del>idx:0, tid:0
-I (32822) wifi:new:<2,0>, old:<2,0>, ap:<255,255>, sta:<2,0>, prof:1, snd_ch_cfg:0x0
-E (32842) esp-tls-mbedtls: read error :-0x004C
-E (32842) transport_base: esp_tls_conn_read error, errno=Software caused connection abort
-E (32842) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=113
-I (32852) MQTT_EXAMPLE: MQTT_EVENT_ERROR
-I (32852) MQTT_EXAMPLE: Last error code reported from esp-tls: 0x0
-I (32862) MQTT_EXAMPLE: Last tls stack error number: 0x4c
-I (32862) MQTT_EXAMPLE: Last captured errno : 0 (Success)
-E (32872) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
-I (32882) MQTT_EXAMPLE: MQTT_EVENT_DISCONNECTED
-I (32922) wifi:flush txq
-I (32922) wifi:stop sw txq
-I (32922) wifi:lmac stop hw txq
-I (32922) wifi:Deinit lldesc rx mblock:10
-ets Jul 29 2019 12:21:46
+static const char *TAG = "OTA_EXAMPLE";
+static const char *LED_TAG = "LED_CONTROL";
+static const char *MQTT_TAG = "MQTT_EXAMPLE";
 
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:6276
-load:0x40078000,len:15736
-load:0x40080400,len:4
---- 0x40080400: _init at ??:?
+// URL del servidor OTA - AHORA USANDO GITHUB
+#define OTA_URL "https://github.com/Lalo12-max/esp-32-ota/releases/download/v1.0.0/esp32_ota_firmware.bin"
+#define HASH_LEN 32
 
-load:0x40080404,len:3860
-entry 0x4008063c
-I (29) boot: ESP-IDF v5.4.2 2nd stage bootloader
-I (29) boot: compile time Aug 13 2025 01:16:06
-I (29) boot: Multicore bootloader
-I (31) boot: chip revision: v3.1
-I (33) boot.esp32: SPI Speed      : 40MHz
-I (37) boot.esp32: SPI Mode       : DIO
-I (41) boot.esp32: SPI Flash Size : 4MB
-I (44) boot: Enabling RNG early entropy source...
-I (49) boot: Partition Table:
-I (51) boot: ## Label            Usage          Type ST Offset   Length
-I (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000
-I (64) boot:  1 otadata          OTA data         01 00 0000f000 00002000
-I (71) boot:  2 phy_init         RF data          01 01 00011000 00001000
-I (77) boot:  3 factory          factory app      00 00 00020000 00100000
-I (84) boot:  4 ota_0            OTA app          00 10 00120000 00100000
-I (90) boot:  5 ota_1            OTA app          00 11 00220000 00100000
-I (97) boot: End of partition table
-I (100) esp_image: segment 0: paddr=00120020 vaddr=3f400020 size=1f9b0h (129456) map
-I (152) esp_image: segment 1: paddr=0013f9d8 vaddr=3ff80000 size=0001ch (    28) load
-I (152) esp_image: segment 2: paddr=0013f9fc vaddr=3ffb0000 size=0061ch (  1564) load
-I (156) esp_image: segment 3: paddr=00140020 vaddr=400d0020 size=a30a0h (667808) map
-I (391) esp_image: segment 4: paddr=001e30c8 vaddr=3ffb061c size=03b44h ( 15172) load
-I (397) esp_image: segment 5: paddr=001e6c14 vaddr=40080000 size=17b0ch ( 97036) load
-I (446) boot: Loaded app from partition at offset 0x120000
-I (447) boot: Disabling RNG early entropy source...
-I (457) cpu_start: Multicore app
-I (466) cpu_start: Pro cpu start user code
-I (466) cpu_start: cpu freq: 160000000 Hz
-I (466) app_init: Application information:
-I (466) app_init: Project name:     mqtt_ssl
-I (470) app_init: App version:      1
-I (473) app_init: Compile time:     Aug 13 2025 01:11:55
-I (478) app_init: ELF file SHA256:  6c649824a...
---- Warning: Checksum mismatch between flashed and built applications. Checksum of built application is 514a4800e038a5e29fe36f2f792cdf66007d0d2d2a9d7f7ba752af6a3f058237
-I (482) app_init: ESP-IDF:          v5.4.2
-I (486) efuse_init: Min chip rev:     v0.0
-I (490) efuse_init: Max chip rev:     v3.99
-I (494) efuse_init: Chip rev:         v3.1
-I (498) heap_init: Initializing. RAM available for dynamic allocation:
-I (504) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-I (509) heap_init: At 3FFB8858 len 000277A8 (157 KiB): DRAM
-I (515) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-I (520) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (525) heap_init: At 40097B0C len 000084F4 (33 KiB): IRAM
-I (532) spi_flash: detected chip: generic
-I (534) spi_flash: flash io: dio
-I (538) main_task: Started on CPU0
-I (548) main_task: Calling app_main()
-I (548) OTA_EXAMPLE: OTA example app_main start
-I (568) example_connect: Start example_connect.
-I (578) wifi:wifi driver task: 3ffc05c4, prio:23, stack:6656, core=0
-I (588) wifi:wifi firmware version: bea31f3
-I (588) wifi:wifi certification version: v7.0
-I (588) wifi:config NVS flash: enabled
-I (588) wifi:config nano formatting: disabled
-I (588) wifi:Init data frame dynamic rx buffer num: 32
-I (598) wifi:Init static rx mgmt buffer num: 5
-I (598) wifi:Init management short buffer num: 32
-I (608) wifi:Init dynamic tx buffer num: 32
-I (608) wifi:Init static rx buffer size: 1600
-I (618) wifi:Init static rx buffer num: 10
-I (618) wifi:Init dynamic rx buffer num: 32
-I (618) wifi_init: rx ba win: 6
-I (628) wifi_init: accept mbox: 6
-I (628) wifi_init: tcpip mbox: 32
-I (628) wifi_init: udp mbox: 6
-I (638) wifi_init: tcp mbox: 6
-I (638) wifi_init: tcp tx win: 5760
-I (638) wifi_init: tcp rx win: 5760
-I (638) wifi_init: tcp mss: 1440
-I (648) wifi_init: WiFi IRAM OP enabled
-I (648) wifi_init: WiFi RX IRAM OP enabled
-I (658) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-I (748) wifi:mode : sta (d4:8a:fc:a8:4f:28)
-I (748) wifi:enable tsf
-I (748) example_connect: Connecting to INFINITUM5CA4_2.4...
-W (748) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
-I (758) example_connect: Waiting for IP(s)
-I (3418) wifi:new:<2,0>, old:<1,0>, ap:<255,255>, sta:<2,0>, prof:1, snd_ch_cfg:0x0
-I (3418) wifi:state: init -> auth (0xb0)
-I (3428) wifi:state: auth -> assoc (0x0)
-I (3428) wifi:state: assoc -> run (0x10)
-I (3458) wifi:connected with INFINITUM5CA4_2.4, aid = 126, channel 2, BW20, bssid = 78:57:73:d5:be:a0
-I (3458) wifi:security: WPA2-PSK, phy: bgn, rssi: -53
-I (3458) wifi:pm start, type: 1
+// Definiciones para control de LED
+#define LED_GPIO GPIO_NUM_14
+#define LDR_ADC_CHANNEL ADC_CHANNEL_6  // GPIO34
 
-I (3458) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (3468) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (4568) example_connect: Got IPv6 event: Interface "example_netif_sta" address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6628) esp_netif_handlers: example_netif_sta ip: 192.168.1.213, mask: 255.255.255.0, gw: 192.168.1.254
-I (6628) example_connect: Got IPv4 event: Interface "example_netif_sta" address: 192.168.1.213
-I (6628) example_common: Connected to example_netif_sta
-I (6638) example_common: - IPv4 address: 192.168.1.213,
-I (6638) example_common: - IPv6 address: fe80:0000:0000:0000:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_LINK_LOCAL
-I (6658) OTA_EXAMPLE: SHA-256 for bootloader:  c937e58211249423d589b100ebcbb64f0f4902261ef480c62f90ea566688d1d0
-I (6928) OTA_EXAMPLE: SHA-256 for current firmware:  ad419607772640c152691cb41af4eafa523f600334fc0d7f43468f56e7025c95
-I (6928) OTA_EXAMPLE: Starting OTA example task
-I (6938) LED_CONTROL: Starting LED control task v2.0 with button control
-I (6938) main_task: Returned from app_main()
-I (6938) gpio: GPIO[27]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (6948) LED_CONTROL: Sistema iniciado - Presiona el botón BOOT para encender/apagar
-[AUTO] Luz ADC: 881, LED PWM duty: 142
-I (7568) example_connect: Got IPv6 event: Interface "example_netif_sta" address: 2806:103e:0027:b872:d68a:fcff:fea8:4f28, type: ESP_IP6_ADDR_IS_GLOBAL
-I (7778) OTA_EXAMPLE: HTTP GET Status = 200, content_length = 911184
-I (8998) wifi:<ba-add>idx:0 (ifx:0, 78:57:73:d5:be:a0), tid:0, ssn:5, winSize:64
-I (16548) OTA_EXAMPLE: Connection closed, all data received
+// PWM resolución y canal para LED
+#define LEDC_TIMER LEDC_TIMER_0
+#define LEDC_MODE LEDC_LOW_SPEED_MODE
+#define LEDC_CHANNEL LEDC_CHANNEL_0
+#define LEDC_DUTY_RES LEDC_TIMER_10_BIT  // 0-1023
+#define LEDC_FREQUENCY 5000               // 5 kHz para LED PWM
+
+// Variables globales para compartir datos entre tareas
+static int current_light_intensity = 0;  // Valor del ADC (0-1023)
+static int current_led_duty = 0;         // Valor PWM del LED (0-1023)
+static float led_intensity_percent = 0.0; // Porcentaje de intensidad del LED
+
+esp_err_t _http_event_handler(esp_http_client_event_t *evt)
+{
+    switch (evt->event_id) {
+    case HTTP_EVENT_ERROR:
+        ESP_LOGD(TAG, "HTTP_EVENT_ERROR");
+        break;
+    case HTTP_EVENT_ON_CONNECTED:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_CONNECTED");
+        break;
+    case HTTP_EVENT_HEADER_SENT:
+        ESP_LOGD(TAG, "HTTP_EVENT_HEADER_SENT");
+        break;
+    case HTTP_EVENT_ON_HEADER:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_HEADER, key=%s, value=%s", evt->header_key, evt->header_value);
+        break;
+    case HTTP_EVENT_ON_DATA:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_DATA, len=%d", evt->data_len);
+        break;
+    case HTTP_EVENT_ON_FINISH:
+        ESP_LOGD(TAG, "HTTP_EVENT_ON_FINISH");
+        break;
+    case HTTP_EVENT_DISCONNECTED:
+        ESP_LOGD(TAG, "HTTP_EVENT_DISCONNECTED");
+        break;
+    case HTTP_EVENT_REDIRECT:
+        ESP_LOGD(TAG, "HTTP_EVENT_REDIRECT");
+        break;
+    }
+    return ESP_OK;
+}
+
+// Función OTA actualizada para usar GitHub con SSL automático
+static void simple_ota_example_task(void *pvParameter)
+{
+    ESP_LOGI(TAG, "Starting GitHub OTA example task");
+    
+    // Configuración HTTP optimizada para GitHub
+    esp_http_client_config_t http_config = {
+        .url = OTA_URL,
+        .crt_bundle_attach = esp_crt_bundle_attach,
+        .timeout_ms = 30000,
+        .buffer_size = 4096,        // Aumentar buffer
+        .buffer_size_tx = 4096,     // Buffer de transmisión
+        .keep_alive_enable = true,  // Mantener conexión
+        .skip_cert_common_name_check = false,
+    };
+    
+    // Configuración OTA optimizada
+    esp_https_ota_config_t ota_config = {
+        .http_config = &http_config,
+        .http_client_init_cb = NULL,
+        .bulk_flash_erase = true,   // Borrado en bloque más eficiente
+        .partial_http_download = true,  // Descarga parcial
+        .max_http_request_size = 4096,  // Tamaño máximo de request
+    };
+    
+    ESP_LOGI(TAG, "Free heap before OTA: %lu bytes", esp_get_free_heap_size());
+    
+    esp_err_t ret = esp_https_ota(&ota_config);
+    if (ret == ESP_OK) {
+        ESP_LOGI(TAG, "GitHub OTA Succeed, Rebooting...");
+        esp_restart();
+    } else {
+        ESP_LOGE(TAG, "GitHub firmware upgrade failed: %s", esp_err_to_name(ret));
+        ESP_LOGI(TAG, "Free heap after failed OTA: %lu bytes", esp_get_free_heap_size());
+    }
+    
+    while (1) {
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+}
+
+void print_sha256(const uint8_t *image_hash, const char *label)
+{
+    char hash_print[HASH_LEN * 2 + 1];
+    hash_print[HASH_LEN * 2] = 0;
+    for (int i = 0; i < HASH_LEN; ++i) {
+        sprintf(&hash_print[i * 2], "%02x", image_hash[i]);
+    }
+    ESP_LOGI(TAG, "%s %s", label, hash_print);
+}
+
+void get_sha256_of_partitions(void)
+{
+    uint8_t sha_256[HASH_LEN] = { 0 };
+    esp_partition_t partition;
+
+    // get sha256 digest for bootloader
+    partition.address   = ESP_BOOTLOADER_OFFSET;
+    partition.size      = ESP_PARTITION_TABLE_OFFSET;
+    partition.type      = ESP_PARTITION_TYPE_APP;
+    esp_partition_get_sha256(&partition, sha_256);
+    print_sha256(sha_256, "SHA-256 for bootloader: ");
+
+    // get sha256 digest for running partition
+    esp_partition_get_sha256(esp_ota_get_running_partition(), sha_256);
+    print_sha256(sha_256, "SHA-256 for current firmware: ");
+}
+
+// Certificado para MQTT SSL
+#if CONFIG_BROKER_CERTIFICATE_OVERRIDDEN == 1
+static const uint8_t mqtt_eclipseprojects_io_pem_start[]  = "-----BEGIN CERTIFICATE-----\n" CONFIG_BROKER_CERTIFICATE_OVERRIDE "\n-----END CERTIFICATE-----";
+#else
+extern const uint8_t emqxsl_ca_pem_start[]   asm("_binary_emqxsl_ca_pem_start");
+#endif
+extern const uint8_t emqxsl_ca_pem_end[]   asm("_binary_emqxsl_ca_pem_end");
+
+// Variable global para el cliente MQTT
+static esp_mqtt_client_handle_t mqtt_client = NULL;
+
+// Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
+void publish_sensor_data(esp_mqtt_client_handle_t client)
+{
+    // Crear mensaje JSON con datos del sensor
+    char message[200];
+    snprintf(message, sizeof(message), 
+        "{\"matricula\":\"2022371034\",\"nombre\":\"Eduardo Alejandro Cabello Hernandez\",\"light_adc\":%d,\"led_duty\":%d,\"led_intensity_percent\":%.2f,\"timestamp\":%lld}",
+        current_light_intensity, current_led_duty, led_intensity_percent, esp_timer_get_time() / 1000);
+    
+    // Publicar en el tópico
+    int msg_id = esp_mqtt_client_publish(client, "/sensor/led_data", message, 0, 1, 0);
+    ESP_LOGI(MQTT_TAG, "Published LED data: %s (msg_id=%d)", message, msg_id);
+}
+
+// Tarea del sensor MQTT actualizada
+void sensor_task(void *pvParameters)
+{
+    esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t) pvParameters;
+
+    while (true) {
+        if (client != NULL) {
+            publish_sensor_data(client);
+        }
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Enviar cada 5 segundos
+    }
+}
+
+// Manejador de eventos MQTT
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+{
+    ESP_LOGD(MQTT_TAG, "Event dispatched from event loop base=%s, event_id=%" PRIi32, base, event_id);
+    esp_mqtt_event_handle_t event = event_data;
+    esp_mqtt_client_handle_t client = event->client;
+    int msg_id;
+    
+    switch ((esp_mqtt_event_id_t)event_id) {
+    case MQTT_EVENT_CONNECTED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_CONNECTED");
+        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
+        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
+
+        msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
+        ESP_LOGI(MQTT_TAG, "sent subscribe successful, msg_id=%d", msg_id);
+
+        msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
+        ESP_LOGI(MQTT_TAG, "sent unsubscribe successful, msg_id=%d", msg_id);
+        break;
+        
+    case MQTT_EVENT_DISCONNECTED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DISCONNECTED");
+        break;
+
+    case MQTT_EVENT_SUBSCRIBED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
+        // Crear tarea del sensor cuando se suscriba exitosamente
+        xTaskCreate(sensor_task, "sensor_task", 4096, client, 5, NULL);
+        ESP_LOGI(MQTT_TAG, "Sensor task created successfully");
+        break;
+        
+    case MQTT_EVENT_UNSUBSCRIBED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+        break;
+        
+    case MQTT_EVENT_PUBLISHED:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+        break;
+        
+    case MQTT_EVENT_DATA:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DATA");
+        printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+        printf("DATA=%.*s\r\n", event->data_len, event->data);
+        break;
+        
+    case MQTT_EVENT_ERROR:
+        ESP_LOGI(MQTT_TAG, "MQTT_EVENT_ERROR");
+        if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT) {
+            ESP_LOGI(MQTT_TAG, "Last error code reported from esp-tls: 0x%x", event->error_handle->esp_tls_last_esp_err);
+            ESP_LOGI(MQTT_TAG, "Last tls stack error number: 0x%x", event->error_handle->esp_tls_stack_err);
+            ESP_LOGI(MQTT_TAG, "Last captured errno : %d (%s)",  event->error_handle->esp_transport_sock_errno,
+                     strerror(event->error_handle->esp_transport_sock_errno));
+        } else if (event->error_handle->error_type == MQTT_ERROR_TYPE_CONNECTION_REFUSED) {
+            ESP_LOGI(MQTT_TAG, "Connection refused error: 0x%x", event->error_handle->connect_return_code);
+        } else {
+            ESP_LOGW(MQTT_TAG, "Unknown error type: 0x%x", event->error_handle->error_type);
+        }
+        break;
+        
+    default:
+        ESP_LOGI(MQTT_TAG, "Other event id:%d", event->event_id);
+        break;
+    }
+}
+
+// Función para inicializar MQTT
+static void mqtt_app_start(void)
+{
+    const esp_mqtt_client_config_t mqtt_cfg = {
+        .broker = {
+            .address.uri = "mqtts://l46d1e5e.ala.us-east-1.emqxsl.com:8883",
+            .verification.certificate = (const char *)emqxsl_ca_pem_start
+        },
+        .credentials = {
+            .username = "big-data-001",
+            .authentication.password = "1Q2W3E4R5T6Y"
+        }
+    };
+
+    ESP_LOGI(MQTT_TAG, "[APP] Free memory: %" PRIu32 " bytes", esp_get_free_heap_size());
+    mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
+    
+    if (mqtt_client == NULL) {
+        ESP_LOGE(MQTT_TAG, "Failed to initialize MQTT client");
+        return;
+    }
+    
+    esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+    esp_mqtt_client_start(mqtt_client);
+}
+
+static void led_control_task(void *pvParameter)
+{
+    ESP_LOGI(LED_TAG, "Starting LED control task");
+    
+    // Configurar PWM para el LED
+    ledc_timer_config_t ledc_timer = {
+        .speed_mode = LEDC_MODE,
+        .timer_num = LEDC_TIMER,
+        .duty_resolution = LEDC_DUTY_RES,
+        .freq_hz = LEDC_FREQUENCY,
+        .clk_cfg = LEDC_AUTO_CLK
+    };
+    ledc_timer_config(&ledc_timer);
+
+    ledc_channel_config_t ledc_channel = {
+        .gpio_num = LED_GPIO,
+        .speed_mode = LEDC_MODE,
+        .channel = LEDC_CHANNEL,
+        .timer_sel = LEDC_TIMER,
+        .duty = 0,
+        .hpoint = 0
+    };
+    ledc_channel_config(&ledc_channel);
+
+    // Configurar ADC para la fotoresistencia (nueva API)
+    adc_oneshot_unit_handle_t adc1_handle;
+    adc_oneshot_unit_init_cfg_t init_config1 = {
+        .unit_id = ADC_UNIT_1,
+    };
+    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config1, &adc1_handle));
+
+    adc_oneshot_chan_cfg_t config = {
+        .bitwidth = ADC_BITWIDTH_10,
+        .atten = ADC_ATTEN_DB_12,
+    };
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, LDR_ADC_CHANNEL, &config));
+
+    int log_counter = 0;  // Contador para logs
+    
+    while (1) {
+        int raw;
+        ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, LDR_ADC_CHANNEL, &raw));
+        
+        int duty = 1023 - raw;
+
+        // Actualizar variables globales
+        current_light_intensity = raw;
+        current_led_duty = duty;
+        led_intensity_percent = (duty / 1023.0) * 100.0;
+
+        ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty);
+        ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
+
+        // Solo mostrar log cada 25 iteraciones (cada 5 segundos)
+        if (log_counter % 25 == 0) {
+            printf("Luz ADC: %d, LED PWM duty: %d, Intensidad: %.2f%%\n", raw, duty, led_intensity_percent);
+        }
+        log_counter++;
+
+        vTaskDelay(pdMS_TO_TICKS(200));
+    }
+}
+
+void app_main(void)
+{
+    ESP_LOGI(TAG, "OTA + MQTT example app_main start");
+
+    // Initialize NVS
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
+     * Read "Establishing Wi-Fi or Ethernet Connection" section in
+     * examples/protocols/README.md for more information about this function.
+     */
+    ESP_ERROR_CHECK(example_connect());
+
+    get_sha256_of_partitions();
+
+    // Configuración optimizada de logs - Reducir verbosidad
+    esp_log_level_set("*", ESP_LOG_INFO);                    // Nivel general INFO
+    esp_log_level_set("esp-x509-crt-bundle", ESP_LOG_WARN);  // Reducir logs de certificados
+    esp_log_level_set("esp-tls", ESP_LOG_WARN);              // Reducir logs TLS
+    esp_log_level_set("mbedtls", ESP_LOG_WARN);              // Reducir logs mbedTLS
+    esp_log_level_set("esp_https_ota", ESP_LOG_INFO);        // Mantener info de OTA
+    esp_log_level_set("mqtt_client", ESP_LOG_INFO);          // Reducir verbosidad MQTT
+    esp_log_level_set("transport_base", ESP_LOG_WARN);       // Reducir logs de transporte
+    esp_log_level_set("transport", ESP_LOG_WARN);            // Reducir logs de transporte
+    esp_log_level_set("outbox", ESP_LOG_WARN);               // Reducir logs de outbox
+
+    mqtt_app_start();
+
+    // Crear tarea OTA con stack optimizado
+    xTaskCreate(&simple_ota_example_task, "ota_example_task", 16384, NULL, 5, NULL);
+    
+    // Crear tarea de control LED
+    xTaskCreate(&led_control_task, "led_control_task", 4096, NULL, 3, NULL);
+}

@@ -125,6 +125,7 @@ def get_versions():
     
     return jsonify(versions)
 
+# Agregar al final del archivo, reemplazar la línea app.run:
 if __name__ == '__main__':
     print(f"\n=== ESP32 OTA Server ===")
     print(f"Server running on: http://localhost:{PORT}")
@@ -138,4 +139,6 @@ if __name__ == '__main__':
     print(f"\nTo upload firmware: curl -X POST -F 'firmware=@your_firmware.bin' http://localhost:{PORT}/upload")
     print(f"="*50)
     
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+    # Para Render, usar PORT del environment
+    port = int(os.environ.get('PORT', PORT))
+    app.run(host='0.0.0.0', port=port, debug=False)

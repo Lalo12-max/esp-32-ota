@@ -18,18 +18,19 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 #include "esp_adc/adc_oneshot.h"
+#include "esp_timer.h"  // ← AGREGAR ESTA LÍNEA
 // Nuevos includes para MQTT
 #include "mqtt_client.h"
 #include "esp_tls.h"
+#include "esp_crt_bundle.h"
 
 static const char *TAG = "OTA_EXAMPLE";
 static const char *LED_TAG = "LED_CONTROL";
 static const char *MQTT_TAG = "MQTT_EXAMPLE";
 
-// URL del servidor OTA - CAMBIAR POR TU IP LOCAL
-#define OTA_URL_SIZE 256
+// URL del servidor OTA - AHORA USANDO GITHUB
+#define OTA_URL "https://github.com/Lalo12-max/esp-32-ota/releases/download/v1.1.0/esp32_ota_firmware.bin"
 #define HASH_LEN 32
-static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ota_firmware.bin";
 
 // Definiciones para control de LED
 #define LED_GPIO GPIO_NUM_14
@@ -41,6 +42,11 @@ static char ota_url[OTA_URL_SIZE] = "http://192.168.1.202:8000/firmware/esp32_ot
 #define LEDC_CHANNEL LEDC_CHANNEL_0
 #define LEDC_DUTY_RES LEDC_TIMER_10_BIT  // 0-1023
 #define LEDC_FREQUENCY 5000               // 5 kHz para LED PWM
+
+// Variables globales para compartir datos entre tareas
+static int current_light_intensity = 0;  // Valor del ADC (0-1023)
+static int current_led_duty = 0;         // Valor PWM del LED (0-1023)
+static float led_intensity_percent = 0.0; // Porcentaje de intensidad del LED
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
@@ -73,115 +79,41 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-#include "esp_ota_ops.h"
-#include "esp_app_format.h"
-
+// Función OTA actualizada para usar GitHub con SSL automático
 static void simple_ota_example_task(void *pvParameter)
 {
-    ESP_LOGI(TAG, "Starting OTA example task");
+    ESP_LOGI(TAG, "Starting GitHub OTA example task");
     
-    esp_http_client_config_t config = {
-        .url = ota_url,
+    // Configuración HTTP optimizada para GitHub
+    esp_http_client_config_t http_config = {
+        .url = OTA_URL,
+        .crt_bundle_attach = esp_crt_bundle_attach,
         .timeout_ms = 30000,
+        .buffer_size = 4096,        // Aumentar buffer
+        .buffer_size_tx = 4096,     // Buffer de transmisión
+        .keep_alive_enable = true,  // Mantener conexión
+        .skip_cert_common_name_check = false,
     };
     
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-    if (client == NULL) {
-        ESP_LOGE(TAG, "Failed to initialize HTTP client");
-        vTaskDelete(NULL);
-        return;
-    }
+    // Configuración OTA optimizada
+    esp_https_ota_config_t ota_config = {
+        .http_config = &http_config,
+        .http_client_init_cb = NULL,
+        .bulk_flash_erase = true,   // Borrado en bloque más eficiente
+        .partial_http_download = true,  // Descarga parcial
+        .max_http_request_size = 4096,  // Tamaño máximo de request
+    };
     
-    esp_err_t err = esp_http_client_open(client, 0);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to open HTTP connection: %s", esp_err_to_name(err));
-        esp_http_client_cleanup(client);
-        vTaskDelete(NULL);
-        return;
-    }
+    ESP_LOGI(TAG, "Free heap before OTA: %lu bytes", esp_get_free_heap_size());
     
-    int content_length = esp_http_client_fetch_headers(client);
-    int status_code = esp_http_client_get_status_code(client);
-    
-    if (status_code == 200) {
-        ESP_LOGI(TAG, "HTTP GET Status = %d, content_length = %d", status_code, content_length);
-        
-        const esp_partition_t *update_partition = esp_ota_get_next_update_partition(NULL);
-        if (update_partition == NULL) {
-            ESP_LOGE(TAG, "No OTA partition found");
-            esp_http_client_close(client);
-            esp_http_client_cleanup(client);
-            vTaskDelete(NULL);
-            return;
-        }
-        
-        esp_ota_handle_t update_handle = 0;
-        err = esp_ota_begin(update_partition, OTA_SIZE_UNKNOWN, &update_handle);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "esp_ota_begin failed: %s", esp_err_to_name(err));
-            esp_http_client_close(client);
-            esp_http_client_cleanup(client);
-            vTaskDelete(NULL);
-            return;
-        }
-        
-        char *buffer = malloc(1024);
-        if (buffer == NULL) {
-            ESP_LOGE(TAG, "Cannot allocate memory for OTA buffer");
-            esp_ota_abort(update_handle);
-            esp_http_client_close(client);
-            esp_http_client_cleanup(client);
-            vTaskDelete(NULL);
-            return;
-        }
-        
-        int binary_file_length = 0;
-        while (1) {
-            int data_read = esp_http_client_read(client, buffer, 1024);
-            if (data_read < 0) {
-                ESP_LOGE(TAG, "Error: SSL data read error");
-                break;
-            } else if (data_read > 0) {
-                err = esp_ota_write(update_handle, (const void *)buffer, data_read);
-                if (err != ESP_OK) {
-                    ESP_LOGE(TAG, "esp_ota_write failed: %s", esp_err_to_name(err));
-                    break;
-                }
-                binary_file_length += data_read;
-                ESP_LOGD(TAG, "Written image length %d", binary_file_length);
-            } else if (data_read == 0) {
-                ESP_LOGI(TAG, "Connection closed, all data received");
-                break;
-            }
-        }
-        
-        free(buffer);
-        
-        if (binary_file_length > 0) {
-            err = esp_ota_end(update_handle);
-            if (err != ESP_OK) {
-                ESP_LOGE(TAG, "esp_ota_end failed: %s", esp_err_to_name(err));
-            } else {
-                err = esp_ota_set_boot_partition(update_partition);
-                if (err != ESP_OK) {
-                    ESP_LOGE(TAG, "esp_ota_set_boot_partition failed: %s", esp_err_to_name(err));
-                } else {
-                    ESP_LOGI(TAG, "OTA Success! Total written binary data length: %d", binary_file_length);
-                    ESP_LOGI(TAG, "Rebooting in 3 seconds...");
-                    vTaskDelay(3000 / portTICK_PERIOD_MS);
-                    esp_restart();
-                }
-            }
-        } else {
-            esp_ota_abort(update_handle);
-            ESP_LOGE(TAG, "No data received");
-        }
+    esp_err_t ret = esp_https_ota(&ota_config);
+    if (ret == ESP_OK) {
+        ESP_LOGI(TAG, "GitHub OTA Succeed, Rebooting...");
+        esp_restart();
     } else {
-        ESP_LOGE(TAG, "HTTP GET failed with status: %d", status_code);
+        ESP_LOGE(TAG, "GitHub firmware upgrade failed: %s", esp_err_to_name(ret));
+        ESP_LOGI(TAG, "Free heap after failed OTA: %lu bytes", esp_get_free_heap_size());
     }
-    
-    esp_http_client_close(client);
-    esp_http_client_cleanup(client);
     
     while (1) {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -229,15 +161,18 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 // Función para publicar datos del sensor (mensaje de Eduardo Alejandro)
 void publish_sensor_data(esp_mqtt_client_handle_t client)
 {
-    // Mensaje con tu información
-    char *message = "Matricula: 2022371034, Nombre: Eduardo Alejandro Cabello Hernandez - OTA funcionando";
+    // Crear mensaje JSON con datos del sensor
+    char message[200];
+    snprintf(message, sizeof(message), 
+        "{\"matricula\":\"2022371034\",\"nombre\":\"Eduardo Alejandro Cabello Hernandez\",\"light_adc\":%d,\"led_duty\":%d,\"led_intensity_percent\":%.2f,\"timestamp\":%lld}",
+        current_light_intensity, current_led_duty, led_intensity_percent, esp_timer_get_time() / 1000);
     
     // Publicar en el tópico
-    int msg_id = esp_mqtt_client_publish(client, "/practica/1", message, 0, 1, 0);
-    ESP_LOGI(MQTT_TAG, "Published message: %s (msg_id=%d)", message, msg_id);
+    int msg_id = esp_mqtt_client_publish(client, "/sensor/led_data", message, 0, 1, 0);
+    ESP_LOGI(MQTT_TAG, "Published LED data: %s (msg_id=%d)", message, msg_id);
 }
 
-// Tarea del sensor MQTT
+// Tarea del sensor MQTT actualizada
 void sensor_task(void *pvParameters)
 {
     esp_mqtt_client_handle_t client = (esp_mqtt_client_handle_t) pvParameters;
@@ -246,7 +181,7 @@ void sensor_task(void *pvParameters)
         if (client != NULL) {
             publish_sensor_data(client);
         }
-        vTaskDelay(pdMS_TO_TICKS(300000)); // 300,000 ms = 5 minutos
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Enviar cada 5 segundos
     }
 }
 
@@ -387,12 +322,17 @@ static void led_control_task(void *pvParameter)
         
         int duty = 1023 - raw;
 
+        // Actualizar variables globales
+        current_light_intensity = raw;
+        current_led_duty = duty;
+        led_intensity_percent = (duty / 1023.0) * 100.0;
+
         ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty);
         ledc_update_duty(LEDC_MODE, LEDC_CHANNEL);
 
-        // Solo mostrar log cada 50 iteraciones (cada 10 segundos)
-        if (log_counter % 50 == 0) {
-            printf("Luz ADC: %d, LED PWM duty: %d\n", raw, duty);
+        // Solo mostrar log cada 25 iteraciones (cada 5 segundos)
+        if (log_counter % 25 == 0) {
+            printf("Luz ADC: %d, LED PWM duty: %d, Intensidad: %.2f%%\n", raw, duty, led_intensity_percent);
         }
         log_counter++;
 
@@ -403,7 +343,7 @@ static void led_control_task(void *pvParameter)
 void app_main(void)
 {
     ESP_LOGI(TAG, "OTA + MQTT example app_main start");
-    
+
     // Initialize NVS
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -411,27 +351,33 @@ void app_main(void)
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
-    
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-    
-    // Configurar logs para MQTT
-    esp_log_level_set("*", ESP_LOG_INFO);
-    esp_log_level_set("esp-tls", ESP_LOG_VERBOSE);
-    esp_log_level_set("mqtt_client", ESP_LOG_VERBOSE);
-    esp_log_level_set("mqtt_example", ESP_LOG_VERBOSE);
-    esp_log_level_set("transport_base", ESP_LOG_VERBOSE);
-    esp_log_level_set("transport", ESP_LOG_VERBOSE);
-    esp_log_level_set("outbox", ESP_LOG_VERBOSE);
-    
+
+    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
+     * Read "Establishing Wi-Fi or Ethernet Connection" section in
+     * examples/protocols/README.md for more information about this function.
+     */
     ESP_ERROR_CHECK(example_connect());
-    
+
     get_sha256_of_partitions();
-    
-    // Inicializar MQTT
+
+    // Configuración optimizada de logs - Reducir verbosidad
+    esp_log_level_set("*", ESP_LOG_INFO);                    // Nivel general INFO
+    esp_log_level_set("esp-x509-crt-bundle", ESP_LOG_WARN);  // Reducir logs de certificados
+    esp_log_level_set("esp-tls", ESP_LOG_WARN);              // Reducir logs TLS
+    esp_log_level_set("mbedtls", ESP_LOG_WARN);              // Reducir logs mbedTLS
+    esp_log_level_set("esp_https_ota", ESP_LOG_INFO);        // Mantener info de OTA
+    esp_log_level_set("mqtt_client", ESP_LOG_INFO);          // Reducir verbosidad MQTT
+    esp_log_level_set("transport_base", ESP_LOG_WARN);       // Reducir logs de transporte
+    esp_log_level_set("transport", ESP_LOG_WARN);            // Reducir logs de transporte
+    esp_log_level_set("outbox", ESP_LOG_WARN);               // Reducir logs de outbox
+
     mqtt_app_start();
+
+    // Crear tarea OTA con stack optimizado
+    xTaskCreate(&simple_ota_example_task, "ota_example_task", 16384, NULL, 5, NULL);
     
-    // Crear todas las tareas: OTA, control de LED y MQTT ya se maneja internamente
-    xTaskCreate(&simple_ota_example_task, "ota_example_task", 8192, NULL, 5, NULL);
-    xTaskCreate(led_control_task, "led_control_task", 2048, NULL, 5, NULL);
+    // Crear tarea de control LED
+    xTaskCreate(&led_control_task, "led_control_task", 4096, NULL, 3, NULL);
 }
