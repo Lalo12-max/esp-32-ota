@@ -29,7 +29,7 @@ static const char *LED_TAG = "LED_CONTROL";
 static const char *MQTT_TAG = "MQTT_EXAMPLE";
 
 // URL del servidor OTA - AHORA USANDO GITHUB
-#define OTA_URL "https://github.com/Lalo12-max/esp-32-ota/releases/download/v1.1.0/esp32_ota_firmware.bin"
+#define OTA_URL "https://github.com/Lalo12-max/esp-32-ota/releases/download/v1.0.0/esp32_ota_firmware.bin"
 #define HASH_LEN 32
 
 // Definiciones para control de LED
@@ -380,4 +380,18 @@ void app_main(void)
     
     // Crear tarea de control LED
     xTaskCreate(&led_control_task, "led_control_task", 4096, NULL, 3, NULL);
+}
+
+// En la función ota_task, cambia la URL:
+static void ota_task(void *pvParameter) {
+    // ... existing code ...
+    
+    esp_http_client_config_t config = {
+        .url = "ttps://esp-32-ota.onrender.com"
+        .cert_pem = emqxsl_ca_pem_start,
+        .timeout_ms = 30000,
+        .keep_alive_enable = true,
+    };
+    
+    // ... existing code ...
 }
